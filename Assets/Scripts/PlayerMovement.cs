@@ -4,11 +4,7 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
     float playerSpeed = 2;
-    bool collidingL;
-    bool collidingB;
-    bool collidingR;
-    bool collidingT;
-    private Animator animator;
+    Animator animator;
 
 
 	// Use this for initialization
@@ -17,16 +13,21 @@ public class PlayerMovement : MonoBehaviour {
         animator = GetComponent<Animator>();
         ChangeAnimationState(0);
     }
-    
-    void Start () {
-        collidingL = false;
-        collidingB = false;
-        collidingR = false;
-        collidingT = false;
-	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        if(Grid.gameManager.currentState == 0)
+            Movement();
+        
+	}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+
+    }
+
+    void Movement()
+    {
         if (Input.GetKey("up"))//Press up arrow key to move forward on the Y AXIS
         {
             transform.Translate(0, playerSpeed * Time.deltaTime, 0);
@@ -58,16 +59,11 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if (Input.GetKeyUp("right"))
             ChangeAnimationState(6);
-	}
-
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-
     }
 
-    void ChangeAnimationState(int valeu)
+    void ChangeAnimationState(int value)
     {
-        animator.SetInteger("AnimState", valeu);
+        animator.SetInteger("AnimState", value);
         /* 0 - Idle
          * 1 - Front
          * 2 - Back
@@ -78,4 +74,11 @@ public class PlayerMovement : MonoBehaviour {
          * 7 - Idle left 
          */
     }
+
+    public void StopAnimation()
+    {
+        animator.SetInteger("AnimState", 0);
+    }
+
+
 }
