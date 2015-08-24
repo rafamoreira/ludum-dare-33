@@ -3,9 +3,10 @@ using System.Collections;
 
 public class CombatStateMachine : MonoBehaviour {
 
-    public enum CombatStates { START, PLAYERCHOICE, ENEMYCHOICE, LOSE, WIN }
+    public enum CombatStates { START, PLAYERTURN, PLAYERCHOICE, ENEMYCHOICE, LOSE, WIN }
 
     public GameObject playerMenu;
+    public GameObject playerFirstMenu;
 
     CombatStates currentState;
 
@@ -21,8 +22,10 @@ public class CombatStateMachine : MonoBehaviour {
             case (CombatStates.START):
                 StartBattleRoutine();
                 break;
+            case (CombatStates.PLAYERTURN):
+                StartPlayerTurnRoutine();
+                break;
             case (CombatStates.PLAYERCHOICE):
-                StartPlayerChoiceRoutine();
                 break;
             case (CombatStates.ENEMYCHOICE):
                 break;
@@ -39,12 +42,13 @@ public class CombatStateMachine : MonoBehaviour {
     void StartBattleRoutine()
     {
         Debug.Log("Start the battle");
-        currentState = CombatStates.PLAYERCHOICE;
+        currentState = CombatStates.PLAYERTURN;
     }
 
-    void StartPlayerChoiceRoutine()
+    void StartPlayerTurnRoutine()
     {
         Debug.Log("Player is choosing");
         playerMenu.SetActive(true);
+        playerFirstMenu.SetActive(true);
     }
 }
